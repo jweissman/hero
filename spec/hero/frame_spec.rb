@@ -19,14 +19,14 @@ describe Frame do
   end
 
   it 'can be subdivided' do
-    expect( frame.subdivide_vertically(2)  ).to eq(
+    expect( frame.subdivide(2)  ).to eq(
       [
         Frame[0,0,10,5],
         Frame[0,5,10,10]
       ]
     )
 
-    expect( frame.subdivide_horizontally(2)  ).to eq(
+    expect( frame.subdivide(2, direction: :horizontal)  ).to eq(
       [
         Frame[0,0,5,10],
         Frame[5,0,10,10]

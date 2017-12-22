@@ -13,5 +13,12 @@ module Hero
       # trigger re-render..?
       true
     end
+
+    class << self
+      def assemble_and_render(*children, **props)
+        new.render(*children,**props)
+      end
+      alias_method :[], :assemble_and_render # emulate procs?
+    end
   end
 end

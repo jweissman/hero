@@ -13,20 +13,6 @@ describe Hero do
     )
   end
 
-  # hero just calls the function in this case
-  it 'should define a component as a function' do
-    expect( Hero.render_component(Paragraph, text: 'hello world') ).to eq(
-      [ :paragraph, body: 'hello world' ]
-    )
-
-    expect( Hero.render_component(Paragraph, [ :child, info: 'content' ], text: 'hi') ).to eq(
-      [ :paragraph, [ :child, info: 'content' ], body: 'hi' ]
-    )
-
-    # okay, so the idea is that you could build a wrapper to parse these!!!
-    # let's play with that, maybe there's a good dsl
-  end
-
   it 'should define a component with state' do
     counter = Counter.new
     expect( counter.render ).to eq(
@@ -75,6 +61,23 @@ describe Hero::Composer do
         [:rect, color: 'blue', frame: Frame[0,0,100,100]],
         [:text, body: 'hi', frame: Frame[0,0,100,50]],
         [:text, body: 'okay', frame: Frame[0,50,100,100]]
+      ]
+    )
+  end
+
+  it 'should respect width/height specifications' do
+    rendered = Container[
+      Paragraph[ text: 'hi', height: 10 ],
+      Paragraph[ text: 'okay' ],
+      color: 'blue'
+    ]
+
+    resolved = composer.resolve(*rendered)
+    expect(resolved).to eq(
+      [
+        [:rect, color: 'blue', frame: Frame[0,0,100,100]],
+        [:text, height: 10, body: 'hi', frame: Frame[0,0,100,10]],
+        [:text, body: 'okay', frame: Frame[0,10,100,100]]
       ]
     )
   end
