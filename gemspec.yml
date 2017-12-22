@@ -1,6 +1,6 @@
 name: hero
-summary: "TODO: Summary"
-description: "TODO: Description"
+summary: "active components for rb"
+description: "simple reactive component patterns for rubyists"
 license: MIT
 authors: Joseph Weissman
 email: jweissman1986@gmail.com
