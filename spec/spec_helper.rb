@@ -10,7 +10,6 @@ Paragraph = ->(*children, **props) {
   body = props.delete(:text) { raise 'paragraph must have text prop' }
   [ :paragraph, *children, **(props.merge(body: body)) ]
 }
-#.merge(text: # body: props[:text] ] }
 
 Container = ->(*children, **props) { [ :division, *children, **props ] }
 

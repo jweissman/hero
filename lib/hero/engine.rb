@@ -24,9 +24,9 @@ module Hero
       true
     end
 
-    def show
+    def show(**props)
       # @root.render
-      @composer.resolve(*@root.render)
+      @composer.resolve(*@root.render(**props))
     end
   end
 end

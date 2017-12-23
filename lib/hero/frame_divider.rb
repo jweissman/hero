@@ -20,14 +20,17 @@ module Hero
     def split_with_specifications
       n = 0
       children.map do |child|
-        if specifies_size?(child)
-          child_size = specified_size(child)
-          n += child_size
-          frame.slice(n-child_size, n, direction: direction)
-        else
-          n += unspecified_child_share
-          frame.slice(n-unspecified_child_share, n, direction: direction)
-        end
+        sz = child_size(child)
+        n += sz
+        frame.slice(n-sz, n, direction: direction)
+      end
+    end
+
+    def child_size(child)
+      if specifies_size?(child)
+        specified_size(child)
+      else
+        unspecified_child_share
       end
     end
 
@@ -55,9 +58,6 @@ module Hero
 
     def children_with_specified_share
       @children_with_specified_share ||= children.select(&method(:specifies_size?))
-      # do |child|
-      #   specifies_size?(child) #, direction: direction)
-      # end
     end
 
     def total_specified_children_share
@@ -70,17 +70,17 @@ module Hero
       @size_specifier_predicate ||= ->(_name, *children, **props) { props.has_key?(direction_word) }
     end
 
-    def size_specification_accessor #(direction)
+    def size_specification_accessor
       @size_specifier_accessor ||= ->(_name, *children, **props) { props[direction_word] }
     end
 
-    def specifies_size?(element) #, direction: direct)
-      predicate = size_specification_predicate #(direction)
+    def specifies_size?(element)
+      predicate = size_specification_predicate
       predicate.call(*element)
     end
 
-    def specified_size(element) #, direction:)
-      accessor = size_specification_accessor #(direction)
+    def specified_size(element)
+      accessor = size_specification_accessor
       accessor.call(*element)
     end
 
