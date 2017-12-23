@@ -101,5 +101,7 @@ describe 'Hero::Engine' do
 
     # dec
     expect{ engine.click(position: [10,90])}.to change{counter.state[:value]}.from(2).to(1)
+
+    p [ show: engine.show ]
   end
 end
