@@ -17,6 +17,8 @@ Idiomatically describe components with lambdas or classes for state management.
 
 ## Examples
 
+    ```ruby
+
     require 'hero'
 
     # simple proc-based components
@@ -95,6 +97,7 @@ Idiomatically describe components with lambdas or classes for state management.
     )
 
     engine.click(position: [10,10]) # => changes counter.state[:value] from 0 to 1
+    ```
 
 
 ## Requirements
