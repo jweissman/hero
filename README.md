@@ -17,10 +17,16 @@ Idiomatically describe components with lambdas or classes for state management.
 
 ## Examples
 
+Just require the library to get started.
+
 ```ruby
 require 'hero'
+```
+### simple proc-based components
 
-# simple proc-based components
+The most basic components are procs that take `(*children, **props)`.
+
+```ruby
 Paragraph = ->(*children, **props) {
   body = props.delete(:text) { raise 'paragraph must have text prop' }
   [ :paragraph, *children, **(props.merge(body: body)) ]
@@ -30,12 +36,21 @@ Container = ->(*children, **props) { [ :division, *children, **props ] }
 
 Button = ->(*children, **props) {
   action = props.delete(:action) { 'okay' }
-  container[
+  Container[
     Paragraph[props.merge(text: action)]
   ]
 }
+```
 
-class Counter < Component
+Note we're inventing the 'target' language wholesale here. (We'll see later how to make use of the
+resulting document tree that results from rendering components.)
+
+### components with state
+
+
+```
+ruby
+class Counter < Hero::Component
   def initialize
     @state = {
       value: 0
@@ -68,8 +83,14 @@ class Counter < Component
     ]
   end
 end
+```
 
-# little composer for our target language (divisions, messages)
+# composition
+
+We can use the Composer DSL to parse the abstract document trees into, e.g.,
+a list of drawing commands that a graphics pipeline could render.
+
+```ruby
 class SimpleComposer < Hero::Composer
   # in resolver functions, you can make use of current @frame...
   def division(*children, **props)
@@ -87,8 +108,14 @@ class SimpleComposer < Hero::Composer
     ]
   end
 end
+```
 
-# we can use Hero::Engine to 'mount' the components
+### engines
+
+We can use Hero::Engine to 'mount' the components. The engine provides a `click` interface which will trigger `on_click` events
+for elements in the view tree.
+
+```ruby
 engine = Hero::Engine.new(
   klass: Counter,
   viewport_dimensions: [100,100],
