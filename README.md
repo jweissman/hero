@@ -22,7 +22,7 @@ Just require the library to get started.
 ```ruby
 require 'hero'
 ```
-### simple proc-based components
+### Simple proc-based components
 
 The most basic components are procs that take `(*children, **props)`.
 
