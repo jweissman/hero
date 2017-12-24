@@ -49,8 +49,7 @@ resulting document tree that results from rendering components.)
 
 Inherit from `Hero::Component` to manage state.
 
-```
-ruby
+```ruby
 class Counter < Hero::Component
   def initialize
     @state = {
