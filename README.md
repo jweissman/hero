@@ -13,7 +13,9 @@ Idiomatically describe components with lambdas or classes for state management.
 
 ## Features
 
-- [ ] `Hero::Composer` composition DSL for 'parsing' component hierarchies
+- `Hero::Component` DSL for writing state-based component (simple procs should fine otherwise)
+- `Hero::Composer` composition DSL for 'parsing' component hierarchies
+- `Hero::Engine` for mounting components and routing click events
 
 ## Examples
 
