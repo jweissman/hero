@@ -26,9 +26,9 @@ Paragraph = ->(*children, **props) {
   [ :paragraph, *children, **(props.merge(body: body)) ]
 }
 
-container = ->(*children, **props) { [ :division, *children, **props ] }
+Container = ->(*children, **props) { [ :division, *children, **props ] }
 
-button = ->(*children, **props) {
+Button = ->(*children, **props) {
   action = props.delete(:action) { 'okay' }
   container[
     Paragraph[props.merge(text: action)]

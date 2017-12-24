@@ -18,7 +18,6 @@ module Hero
       end
     end
 
-
     def distribute_frames(children, frame:, direction:)
       divider = FrameDivider.new(
         children: children,
