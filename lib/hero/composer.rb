@@ -5,7 +5,6 @@ module Hero
     end
 
     def resolve(sym, *children, **props)
-      # puts "---> Composer.resolve #{sym} children=#{children} props=#{props}"
       send(sym, *children, **props)
     end
 

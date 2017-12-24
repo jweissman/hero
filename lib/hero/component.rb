@@ -9,7 +9,7 @@ module Hero
 
     def apply(**new_state)
       # raise 'Component#apply is not impl'
-      @state = @state.merge(new_state) #.merge(@state) # ?
+      @state = @state.merge(new_state)
       # trigger re-render..?
       true
     end

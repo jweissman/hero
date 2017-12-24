@@ -18,12 +18,11 @@ module Hero
 
     protected
     def split_with_specifications
-      n = 0
-      children.map do |child|
-        sz = child_size(child)
-        n += sz
-        frame.slice(n-sz, n, direction: direction)
+      children_sizes = children.map(&method(:child_size))
+      pts = children.count.times.map do |ndx|
+        children_sizes[0..ndx].inject(&:+)
       end
+      frame.slice(*pts, direction: direction)
     end
 
     def child_size(child)
@@ -67,11 +66,15 @@ module Hero
     end
 
     def size_specification_predicate
-      @size_specifier_predicate ||= ->(_name, *children, **props) { props.has_key?(direction_word) }
+      @size_specifier_predicate ||= ->(_name, *children, **props) {
+        props.has_key?(direction_word)
+      }
     end
 
     def size_specification_accessor
-      @size_specifier_accessor ||= ->(_name, *children, **props) { props[direction_word] }
+      @size_specifier_accessor ||= ->(_name, *children, **props) {
+        props[direction_word]
+      }
     end
 
     def specifies_size?(element)

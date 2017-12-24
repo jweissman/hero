@@ -38,4 +38,25 @@ describe Frame do
     expect(frame.contains?(position: [5,5])).to be true
     expect(frame.contains?(position: [-5,15])).to be false
   end
+
+  it 'should be paddable' do
+    expect(frame.pad(2)).to eq(Frame[2,2,8,8])
+  end
+
+  it 'can be sliced' do
+    expect( frame.slice(5,direction: :vertical) ).to eq(
+      [
+        Frame[0,0,10,5],
+        Frame[0,5,10,10]
+      ]
+    )
+
+    expect( frame.slice(3,6,direction: :vertical) ).to eq(
+      [
+        Frame[0,0,10,3],
+        Frame[0,3,10,6],
+        Frame[0,6,10,10]
+      ]
+    )
+  end
 end

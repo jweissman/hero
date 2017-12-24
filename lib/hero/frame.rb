@@ -30,14 +30,27 @@ module Hero
         y0 <= y && y <= y1
     end
 
-    def slice(n0,n1,direction:)
-      if direction == :vertical
-        Frame[x0,n0,x1,n1]
-      elsif direction == :horizontal
-        Frame[n0,y0,n1,y1]
-      else
+    def slice(*ns,direction:)
+      unless [ :horizontal, :vertical ].include?(direction)
         raise "Frame#slice direction must be :vertical or :horizontal"
       end
+
+      points = [ 0, *ns, size(direction: direction) ]
+
+      points.drop(1).zip(points).map do |(n,n_prime)|
+        if direction == :vertical
+          Frame[x0,n_prime,x1,n]
+        elsif direction == :horizontal
+          Frame[n_prime,y0,n,y1]
+        end
+      end
+    end
+
+    def pad(padding)
+      Frame[
+        x0+padding, y0+padding,
+        x1-padding, y1-padding
+      ]
     end
 
     def inspect

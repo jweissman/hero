@@ -57,9 +57,8 @@ end
 # little composer for our target language (divisions, messages)
 # we'll create new instances as n
 class SimpleComposer < Hero::Composer
-  # resolver functions -- you can make use of current frame...
+  # resolver functions -- you can make use of current @frame...
   def division(*children, **props)
-    puts "--- resolving DIVISION props=#{props}"
     resolved_children = resolve_children(children)
     [
       [ :rect, props.merge({ frame: @frame })]
@@ -67,8 +66,6 @@ class SimpleComposer < Hero::Composer
   end
 
   def paragraph(**props)
-    puts "--- resolving PARAGRAPH props=#{props}"
-    # binding.pry
     [
       [ :text, props.merge({ frame: @frame }) ]
     ]
