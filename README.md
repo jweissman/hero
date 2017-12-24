@@ -13,13 +13,13 @@ Idiomatically describe components with lambdas or classes for state management.
 
 ## Features
 
-- `Hero::Component` DSL for writing state-based component (simple procs should fine otherwise)
-- `Hero::Composer` composition DSL for 'parsing' component hierarchies
-- `Hero::Engine` for mounting components and routing click events
+- Inherit from `Hero::Component` to write state-based components
+- Inherit from `Hero::Composer` for composition DSL (to help parse component hierarchies)
+- Use `Hero::Engine` to mount components and route click events
 
 ## Examples
 
-Just require the library to get started.
+Just require the library to get started...
 
 ```ruby
 require 'hero'
@@ -111,6 +111,7 @@ end
 ```
 
 ### Engines
+
 
 We can use Hero::Engine to 'mount' a component. The engine provides a `click(position:)` method which
 triggers `on_click` events for elements in the rendered view.
