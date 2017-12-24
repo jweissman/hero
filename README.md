@@ -85,7 +85,7 @@ class Counter < Hero::Component
 end
 ```
 
-# composition
+### composition
 
 We can use the Composer DSL to parse the abstract document trees into, e.g.,
 a list of drawing commands that a graphics pipeline could render.
