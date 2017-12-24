@@ -45,8 +45,9 @@ Button = ->(*children, **props) {
 Note we're inventing the 'target' language wholesale here. (We'll see later how to make use of the
 resulting document tree that results from rendering components.)
 
-### components with state
+### Components with state
 
+Inherit from `Hero::Component` to manage state.
 
 ```
 ruby
@@ -85,7 +86,7 @@ class Counter < Hero::Component
 end
 ```
 
-### composition
+### Composition
 
 We can use the Composer DSL to parse the abstract document trees into, e.g.,
 a list of drawing commands that a graphics pipeline could render.
@@ -94,7 +95,6 @@ a list of drawing commands that a graphics pipeline could render.
 class SimpleComposer < Hero::Composer
   # in resolver functions, you can make use of current @frame...
   def division(*children, **props)
-    puts "--- resolving DIVISION props=#{props}"
     resolved_children = resolve_children(children)
     [
       [ :rect, props.merge({ frame: @frame })]
@@ -102,7 +102,6 @@ class SimpleComposer < Hero::Composer
   end
 
   def paragraph(**props)
-    puts "--- resolving PARAGRAPH props=#{props}"
     [
       [ :text, props.merge({ frame: @frame }) ]
     ]
@@ -110,10 +109,10 @@ class SimpleComposer < Hero::Composer
 end
 ```
 
-### engines
+### Engines
 
-We can use Hero::Engine to 'mount' the components. The engine provides a `click` interface which will trigger `on_click` events
-for elements in the view tree.
+We can use Hero::Engine to 'mount' a component. The engine provides a `click(position:)` method which
+triggers `on_click` events for elements in the rendered view.
 
 ```ruby
 engine = Hero::Engine.new(
