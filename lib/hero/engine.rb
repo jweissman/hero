@@ -26,7 +26,7 @@ module Hero
 
     def show(**props)
       # @root.render
-      @composer.resolve(*@root.render(**props))
+      @composer.resolve(*@root.show(**props))
     end
   end
 end

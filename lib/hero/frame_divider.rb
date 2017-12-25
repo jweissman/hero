@@ -20,7 +20,7 @@ module Hero
     def split_with_specifications
       children_sizes = children.map(&method(:child_size))
       pts = children.count.times.map do |ndx|
-        children_sizes[0..ndx].inject(&:+)
+        origin + children_sizes[0..ndx].inject(&:+)
       end
       frame.slice(*pts, direction: direction)
     end
@@ -55,6 +55,15 @@ module Hero
       frame.size(direction: direction)
     end
 
+    def origin
+      if direction == :vertical
+        frame.y0
+      elsif direction == :horizontal
+        frame.x0
+      end
+      # frame.origin(direction: direction)
+    end
+
     def children_with_specified_share
       @children_with_specified_share ||= children.select(&method(:specifies_size?))
     end
@@ -73,7 +82,7 @@ module Hero
 
     def size_specification_accessor
       @size_specifier_accessor ||= ->(_name, *children, **props) {
-        props[direction_word]
+        props[direction_word] # || children.any? { |child| specifies_size?(child) }
       }
     end
 

@@ -34,7 +34,9 @@ Paragraph = ->(*children, **props) {
   [ :paragraph, *children, **(props.merge(body: body)) ]
 }
 
-Container = ->(*children, **props) { [ :division, *children, **props ] }
+Container = ->(*children, **props) {
+  [ :division, *children, **props ]
+}
 
 Button = ->(*children, **props) {
   action = props.delete(:action) { 'okay' }
@@ -44,8 +46,9 @@ Button = ->(*children, **props) {
 }
 ```
 
-Note we're inventing the 'target' language wholesale here. (We'll see later how to make use of the
-resulting document tree that results from rendering components.)
+Note we're inventing the 'target' language wholesale here. We'll see later how to make use of the
+resulting document tree that results from rendering components. What is important in order to make
+use of the parsing API is that we follow the same structure as the component definition: `[ symbol,
 
 ### Components with state
 
@@ -111,7 +114,6 @@ end
 ```
 
 ### Engines
-
 
 We can use Hero::Engine to 'mount' a component. The engine provides a `click(position:)` method which
 triggers `on_click` events for elements in the rendered view.

@@ -59,7 +59,7 @@ end
 class SimpleComposer < Hero::Composer
   # resolver functions -- you can make use of current @frame...
   def division(*children, **props)
-    resolved_children = resolve_children(children)
+    resolved_children = resolve_children(children, frame: @frame)
     [
       [ :rect, props.merge({ frame: @frame })]
     ] + resolved_children

@@ -1,6 +1,7 @@
 module Hero
   class Component
     attr_reader :props, :state
+
     def initialize(*children, **props)
       @children = children
       @props = props
@@ -10,8 +11,18 @@ module Hero
     def apply(**new_state)
       # raise 'Component#apply is not impl'
       @state = @state.merge(new_state)
+
       # trigger re-render..?
+
       true
+    end
+
+    def show(**props)
+      props = props.merge(@props) if @props.is_a?(Hash)
+      render(**props)
+      # @rendered ||= {}
+      # @rendered[@state] ||= {}
+      # @rendered[@state][props] ||= render(**props)
     end
 
     class << self

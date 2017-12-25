@@ -35,7 +35,9 @@ module Hero
         raise "Frame#slice direction must be :vertical or :horizontal"
       end
 
-      points = [ 0, *ns, size(direction: direction) ]
+      zero = direction == :vertical ? y0 : x0
+
+      points = [ zero, *ns, size(direction: direction) ]
 
       points.drop(1).zip(points).map do |(n,n_prime)|
         if direction == :vertical
