@@ -9,9 +9,10 @@ module Hero
     end
 
     def click(position:)
-      shown = show
-      clicked = shown.reverse.detect do |sym, **attrs|
-        attrs[:frame].contains?(position: position)
+      # shown = show
+      clicked = show.reverse.detect do |sym, **attrs|
+        attrs[:frame].contains?(position: position) && \
+          attrs.has_key?(:on_click)
       end
       handle_click(*clicked) if clicked
     end
@@ -19,13 +20,14 @@ module Hero
     def handle_click(sym, **attrs)
       puts "=== GOT CLICK ON #{sym} WITH attrs = #{attrs}"
       return false unless attrs.has_key?(:on_click)
-      on_click = attrs[:on_click] #.delete(:on_click)
+      on_click = attrs[:on_click]
       on_click.call
       true
     end
 
     def show(**props)
       # @root.render
+      # @shown ||=
       @composer.resolve(*@root.show(**props))
     end
   end

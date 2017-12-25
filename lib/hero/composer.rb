@@ -31,8 +31,5 @@ module Hero
       distributed = divider.split
       distributed
     end
-
-    # private
-    # attr_reader :frame
   end
 end
