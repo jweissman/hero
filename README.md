@@ -47,8 +47,7 @@ Button = ->(*children, **props) {
 ```
 
 Note we're inventing the 'target' language wholesale here. We'll see later how to make use of the
-resulting document tree that results from rendering components. What is important in order to make
-use of the parsing API is that we follow the same structure as the component definition: `[ symbol,
+resulting document tree that results from rendering components.
 
 ### Components with state
 
