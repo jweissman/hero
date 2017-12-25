@@ -34,12 +34,7 @@ module Hero
       unless [ :horizontal, :vertical ].include?(direction)
         raise "Frame#slice direction must be :vertical or :horizontal"
       end
-
-      zero = direction == :vertical ? y0 : x0
-      points = [ zero, *ns, zero+size(direction: direction) ]
-
-      direction == :vertical ? slice_vertically(points) :
-                               slice_horizontally(points)
+      slice!(*ns, direction: direction)
     end
 
     def pad(padding)
@@ -55,6 +50,22 @@ module Hero
     alias_method :to_s, :inspect
 
     protected
+
+    # slice without checking validity of direction
+    def slice!(*ns,direction:)
+      zero = direction == :vertical ? y0 : x0
+      points = [
+        zero,
+        *ns,
+        (zero + size(direction: direction))
+      ]
+
+      if direction == :vertical
+        slice_vertically(points)
+      else
+        slice_horizontally(points)
+      end
+    end
 
     def slice_vertically(points)
       points.drop(1).zip(points).map do |(n,n_prime)|
