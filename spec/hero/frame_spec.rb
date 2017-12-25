@@ -58,5 +58,20 @@ describe Frame do
         Frame[0,6,10,10]
       ]
     )
+
+    f2 = Frame[10,10,20,20]
+    expect( f2.slice(15,direction: :vertical) ).to eq(
+      [
+        Frame[10,10,20,15],
+        Frame[10,15,20,20],
+      ]
+    )
+
+    expect( f2.slice(15,direction: :horizontal) ).to eq(
+      [
+        Frame[10,10,15,20],
+        Frame[15,10,20,20],
+      ]
+    )
   end
 end

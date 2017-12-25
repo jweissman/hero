@@ -36,16 +36,10 @@ module Hero
       end
 
       zero = direction == :vertical ? y0 : x0
+      points = [ zero, *ns, zero+size(direction: direction) ]
 
-      points = [ zero, *ns, size(direction: direction) ]
-
-      points.drop(1).zip(points).map do |(n,n_prime)|
-        if direction == :vertical
-          Frame[x0,n_prime,x1,n]
-        elsif direction == :horizontal
-          Frame[n_prime,y0,n,y1]
-        end
-      end
+      direction == :vertical ? slice_vertically(points) :
+                               slice_horizontally(points)
     end
 
     def pad(padding)
@@ -61,6 +55,18 @@ module Hero
     alias_method :to_s, :inspect
 
     protected
+
+    def slice_vertically(points)
+      points.drop(1).zip(points).map do |(n,n_prime)|
+        Frame[x0,n_prime,x1,n]
+      end
+    end
+
+    def slice_horizontally(points)
+      points.drop(1).zip(points).map do |(n,n_prime)|
+        Frame[n_prime,y0,n,y1]
+      end
+    end
 
     def subdivide_vertically(n)
       slice_height = height / n

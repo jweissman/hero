@@ -10,7 +10,7 @@ module Hero
     end
 
     protected
-    def resolve_children(children, frame:, direction: :vertical)
+    def resolve_children(children, frame: @frame, direction: :vertical)
       children_frame = frame.pad(@padding)
       child_frames = *distribute_frames(children,
                                         frame: children_frame,
