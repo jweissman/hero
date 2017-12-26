@@ -81,22 +81,22 @@ module Hero
 
     def subdivide_vertically(n)
       slice_height = height / n
-      n.times.map do |slice_index|
+      (n-1).times.map do |slice_index|
         Frame[
           x0, y0 + (slice_index * slice_height),
           x1, y0 + (slice_index+1) * slice_height
         ]
-      end
+      end + [Frame[x0, y0+(n-1)*slice_height, x1, y1]]
     end
 
     def subdivide_horizontally(n)
       slice_width = width / n
-      n.times.map do |slice_index|
+      (n-1).times.map do |slice_index|
         Frame[
           x0 + (slice_index * slice_width), y0,
           x0 + (slice_index+1) * slice_width, y1
         ]
-      end
+      end + [Frame[x0+(n-1)*slice_width, y0, x1, y1]]
     end
   end
 end

@@ -34,6 +34,16 @@ describe Frame do
     )
   end
 
+  it 'handles uneven subdivisions' do
+    expect( frame.subdivide(3, direction: :horizontal)  ).to eq(
+      [
+        Frame[0,0,3,10],
+        Frame[3,0,6,10],
+        Frame[6,0,10,10],
+      ]
+    )
+  end
+
   it 'can tell if it contains a point' do
     expect(frame.contains?(position: [5,5])).to be true
     expect(frame.contains?(position: [-5,15])).to be false
