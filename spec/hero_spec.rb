@@ -30,7 +30,7 @@ describe Hero do
   end
 end
 
-xdescribe 'Hero::Engine' do
+describe 'Hero::Engine' do
   subject(:engine) do
     Hero::Engine.new(
       klass: Counter,
