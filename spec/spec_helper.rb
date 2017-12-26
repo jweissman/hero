@@ -1,11 +1,9 @@
-require 'rspec'
-# require 'pry'
 require 'simplecov'
-
 SimpleCov.start
 
-require 'hero'
+require 'rspec'
 
+require 'hero'
 include Hero
 
 # simple proc-based components

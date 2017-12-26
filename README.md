@@ -135,7 +135,7 @@ engine.click(position: [10,10]) # => changes counter.state[:value] from 0 to 1
 
 ## Install
 
-    $ gem install hero
+  Just add `gem 'hero', github: 'jweissman/hero'` to your Gemfile for now.
 
 ## Copyright
 
