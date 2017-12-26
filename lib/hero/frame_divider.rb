@@ -61,7 +61,6 @@ module Hero
       elsif direction == :horizontal
         frame.x0
       end
-      # frame.origin(direction: direction)
     end
 
     def children_with_specified_share
@@ -82,7 +81,7 @@ module Hero
 
     def size_specification_accessor
       @size_specifier_accessor ||= ->(_name, *children, **props) {
-        props[direction_word] # || children.any? { |child| specifies_size?(child) }
+        props[direction_word]
       }
     end
 

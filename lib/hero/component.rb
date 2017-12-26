@@ -9,27 +9,21 @@ module Hero
     end
 
     def apply(**new_state)
-      # raise 'Component#apply is not impl'
       @state = @state.merge(new_state)
-
-      # trigger re-render..?
-
       true
     end
 
     def show(**props)
       props = props.merge(@props) if @props.is_a?(Hash)
       render(**props)
-      # @rendered ||= {}
-      # @rendered[@state] ||= {}
-      # @rendered[@state][props] ||= render(**props)
     end
 
     class << self
+      # emulate procs if called with []
       def assemble_and_render(*children, **props)
         new.render(*children,**props)
       end
-      alias_method :[], :assemble_and_render # emulate procs?
+      alias_method :[], :assemble_and_render
     end
   end
 end

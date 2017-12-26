@@ -1,5 +1,5 @@
 module Hero
-  # engine should build virtual doc, route clicks to component instances...
+  # engine compose documents and route clicks back to components...
   class Engine
     attr_reader :root
     def initialize(klass:, composer_provider:, viewport_dimensions: [640,480])
@@ -9,7 +9,6 @@ module Hero
     end
 
     def click(position:)
-      # shown = show
       clicked = show.reverse.detect do |sym, **attrs|
         attrs[:frame].contains?(position: position) && \
           attrs.has_key?(:on_click)
@@ -18,7 +17,6 @@ module Hero
     end
 
     def handle_click(sym, **attrs)
-      puts "=== GOT CLICK ON #{sym} WITH attrs = #{attrs}"
       return false unless attrs.has_key?(:on_click)
       on_click = attrs[:on_click]
       on_click.call
@@ -26,8 +24,6 @@ module Hero
     end
 
     def show(**props)
-      # @root.render
-      # @shown ||=
       @composer.resolve(*@root.show(**props))
     end
   end
