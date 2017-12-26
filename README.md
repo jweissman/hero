@@ -1,4 +1,4 @@
-# hero
+# hero :star: :sparkles: :dizzy:
 
 * [Homepage](https://rubygems.org/gems/hero)
 * [Documentation](http://rubydoc.info/gems/hero/frames)
