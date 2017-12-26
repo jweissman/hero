@@ -4,6 +4,7 @@
 * [Documentation](http://rubydoc.info/gems/hero/frames)
 
 [![Code Climate GPA](https://codeclimate.com/github/jweissman/hero/badges/gpa.svg)](https://codeclimate.com/github/jweissman/hero)
+[ ![Codeship Status for jweissman/hero](https://app.codeship.com/projects/6df88540-cc7e-0135-1888-0691da0382ae/status?branch=master)](https://app.codeship.com/projects/261921)
 
 ## Description
 
