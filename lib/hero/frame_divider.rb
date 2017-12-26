@@ -3,7 +3,6 @@ module Hero
     attr_reader :children, :frame, :direction
 
     def initialize(children:, frame:, direction: :vertical)
-      puts "---> Created FrameDivider for frame #{frame} and direction #{direction}"
       @children = children
       @frame = frame
       @direction = direction
@@ -31,9 +30,6 @@ module Hero
         specified_size(child)
       elsif partially_specifies_size?(child)
         partially_specified_size(child)
-        # ...a sub-child (grandchild) specifies size, so we need to give this
-        # child a frame with the unspecified share
-        # unspecified_child_share
       else
         unspecified_child_share
       end
@@ -70,7 +66,6 @@ module Hero
     end
 
     def children_with_specified_share
-      # @children_with_specified_share ||
       children.select(&method(:specifies_size?)) + children.select(&method(:partially_specifies_size?))
     end
 
@@ -86,7 +81,6 @@ module Hero
     end
 
     def specified_size(element)
-      # return unspecified_child_share unless specifies_size?(element)
       accessor = size_specification_accessor
       accessor.call(*element)
     end
@@ -116,9 +110,6 @@ module Hero
         if props.key?(direction_word)
           props[direction_word]
         end
-
-        # child_sizes = (children.map { |child| child_size(child) }) #.inject(&:+)
-        # child_sizes.inject(&:+)
       end
     end
 
@@ -132,15 +123,14 @@ module Hero
     def partial_size_specification_accessor
       @parial_size_specifier_accessor ||= lambda do |_name, *children, **props|
         # do we need a new frame divider for the children here
-        child_sizes = (children.map { |child| specified_size(child) }.compact) # || 0 }) #.inject(&:+)
+        child_sizes = (children
+          .map { |child| specified_size(child) || partially_specified_size(child) }
+          .compact)
         other_direction = props.delete(:direction) { :vertical }
         if direction == other_direction
-          # child_sizes.max
           child_sizes.inject(&:+)
         else
           child_sizes.max
-          # binding.pry
-          # child_sizes.inject(&:+)
         end
       end
     end
