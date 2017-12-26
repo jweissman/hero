@@ -1,5 +1,8 @@
 require 'rspec'
-require 'pry'
+# require 'pry'
+require 'simplecov'
+
+SimpleCov.start
 
 require 'hero'
 
