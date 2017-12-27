@@ -19,45 +19,8 @@ module Hero
 
     protected
     def split_with_specifications
-      child_size_map = []
+      children_sizes = assemble_children_sizes
 
-      children.each.with_index do |child, ndx|
-        if specifies_size?(child)
-          child_size_map[ndx] = specified_size(child)
-        end
-      end
-
-      total_specified_share = child_size_map.compact.inject(&:+) || 0
-      total_specified_count = child_size_map.compact.count || 0
-
-      if total_specified_count < children.count
-        default_unspecified_share = (total_size - total_specified_share) / (children.count - total_specified_count)
-        # okay, we've assigned those with direct specifications
-        # now attempt to assign those without even partial specifications...
-        children.each.with_index do |child, ndx|
-          if !specifies_size?(child) && partially_specifies_size?(child)
-            # okay, here's the rub
-            child_size_map[ndx] = [ partially_specified_size(child), default_unspecified_share ].max
-          end
-        end
-      end
-
-      final_specified_share = child_size_map.compact.inject(&:+) || 0
-      final_specified_count = child_size_map.compact.count || 0
-
-      if final_specified_count < children.count
-        # okay, now we need to distribute the REMAINING remaining over truly unspecified children
-        default_final_share = (total_size - final_specified_share) / (children.count - final_specified_count)
-        children.each.with_index do |child, ndx|
-          if !specifies_size?(child) && !partially_specifies_size?(child)
-            child_size_map[ndx] = default_final_share
-          end
-        end
-      end
-
-      children_sizes = child_size_map
-
-      # hmmmmmmmmmmmmmm
       pts = Array.new(children.count-1) do |ndx|
         origin + children_sizes[0..ndx].inject(&:+)
       end
@@ -65,14 +28,46 @@ module Hero
       frame.slice(*pts, direction: direction)
     end
 
-    def child_size(child)
-      if specifies_size?(child)
-        specified_size(child)
-      elsif partially_specifies_size?(child)
-        partially_specified_size(child)
-      else
-        unspecified_child_share
+    def assemble_children_sizes
+      children_sizes = []
+
+      # size exactly specified children
+      children.each.with_index do |child, ndx|
+        if specifies_size?(child)
+          children_sizes[ndx] = specified_size(child)
+        end
       end
+
+      # size partially specified children
+      sizing_pass!(
+        children_sizes,
+        condition: ->(child) { !specifies_size?(child) && partially_specifies_size?(child) },
+        size_provider: ->(child, default) { [ partially_specified_size(child), default ].max }
+      )
+
+      # now hit totally unspecified children with default val
+      sizing_pass!(
+        children_sizes,
+        condition: ->(child) { !specifies_size?(child) && !partially_specifies_size?(child) },
+        size_provider: ->(child, default) { default }
+      )
+
+      return children_sizes
+    end
+
+    # alters sizes_list
+    def sizing_pass!(sizes_list, condition:, size_provider:)
+      total_share = sizes_list.compact.inject(&:+) || 0
+      total_count = sizes_list.compact.count || 0
+      if total_count < children.count
+        default_share = (total_size - total_share) / (children.count - total_count)
+        children.each.with_index do |child,ndx|
+          if condition[child]
+            sizes_list[ndx] = size_provider[child, default_share]
+          end
+        end
+      end
+      true
     end
 
     private
@@ -106,12 +101,12 @@ module Hero
     end
 
     def children_with_specified_share
-      children.select(&method(:specifies_size?)) # + children.select(&method(:partially_specifies_size?))
+      children.select(&method(:specifies_size?))
     end
 
     def total_specified_children_share
       children_with_specified_share
-        .map { |child| specified_size(child) } # || partially_specified_size(child) }
+        .map { |child| specified_size(child) }
         .inject(&:+) || 0
     end
 
