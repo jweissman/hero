@@ -100,26 +100,24 @@ describe FrameDivider do
       q = Query.new(resolved)
       hi = q.find('greeting')
       expect( hi.id ).to eq('greeting')
-      # binding.pry
       expect( hi.props[:frame] ).to eq(Frame[15,15,85,85])
     end
 
     it 'works out even in nested situations' do
-
       wrapped_model = Container[
-        Container[ Paragraph[text: 'header'], height: 10, id: 'header' ],
-        model,
-        Container[ Paragraph[text: 'footer'], height: 10, id: 'footer' ],
+          Container[ Paragraph[text: 'header'], height: 10, id: 'header' ],
+          model,
+          Container[ Paragraph[text: 'footer'], height: 10, id: 'footer' ],
+          # padding: 5
         id: 'wrapper'
       ]
 
       resolved = composer.resolve(*wrapped_model)
+      p [ resolved: resolved ]
       q = Query.new(resolved)
       hi = q.find('greeting')
       p [ hi: hi ]
       expect( hi.id ).to eq('greeting')
-
-      # binding.pry
       expect( hi.frame ).to eq(Frame[15,15,85,85])
     end
   end

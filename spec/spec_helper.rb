@@ -60,7 +60,6 @@ end
 class SimpleComposer < Hero::Composer
   # resolver functions -- you can make use of current @frame...
   def division(*children, **props)
-    puts "---> RESOLVE DIVISION WITH FRAME #@frame"
     direction = props.delete(:direction) { :vertical }
     resolved_children = resolve_children(children, direction: direction) #, frame: @frame)
     # binding.pry if props[:id] == 'wrapper'
