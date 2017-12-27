@@ -72,22 +72,6 @@ module Hero
 
     private
 
-    def remaining_unspecified_size
-      total_size - total_specified_children_share
-    end
-
-    def unspecified_child_share
-      if unspecified_children.any?
-        remaining_unspecified_size / unspecified_children.count
-      else
-        0
-      end
-    end
-
-    def unspecified_children
-      @unspecified_children ||= children - children_with_specified_share
-    end
-
     def total_size
       frame.size(direction: direction)
     end
