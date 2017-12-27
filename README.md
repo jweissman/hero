@@ -113,6 +113,8 @@ class SimpleComposer < Hero::Composer
 end
 ```
 
+The built-in composition engine will resolve frames while attempting to respect the following props: `height`, `width`, `padding`, and `direction` (to indicate "flow" orientation; must be `:horizontal` or `:vertical`).
+
 ### Engines
 
 We can use Hero::Engine to 'mount' a component. The engine provides a `click(position:)` method which

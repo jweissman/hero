@@ -10,7 +10,6 @@ module Hero
 
     def split
       if children_with_specified_share.any? || children.any? { |child| partially_specifies_size?(child) }
-        # binding.pry
         split_with_specifications
       else
         frame.subdivide(children.length, direction: direction)
