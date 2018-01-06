@@ -59,24 +59,32 @@ module Hero
 
     # alters sizes_list
     def sizing_pass!(sizes_list, condition:, size_provider:)
-      total_share = sizes_list.compact.inject(&:+) || 0
-      total_count = sizes_list.compact.count || 0
-      if total_count < children.count
-        default_share = (total_size - total_share) / (children.count - total_count)
-        conditional_children = children.select { |c| condition[c] }
-        if conditional_children.any?
-          children.each.with_index do |child,ndx|
-            if condition[child]
-              alone = sizes_list[ndx].nil? && (total_count == children.count - 1)
-              sizes_list[ndx] = alone ? default_share : size_provider[child, default_share]
-            end
-          end
-        end
+      should_perform_sizing = children.detect.with_index do |child,ndx|
+        condition[child] && sizes_list[ndx].nil?
       end
-      true
+
+      if should_perform_sizing # total_count < children.count
+        perform_sizing!(
+          sizes_list,
+          condition: condition,
+          size_provider: size_provider
+        )
+      end
     end
 
     private
+
+    def perform_sizing!(sizes_list, condition:, size_provider:)
+      total_share = sizes_list.compact.inject(&:+) || 0
+      total_count = sizes_list.compact.count || 0
+      default_share = (total_size - total_share) / (children.count - total_count)
+      children.each.with_index do |child,ndx|
+        if condition[child]
+          alone = sizes_list[ndx].nil? && (total_count == children.count - 1)
+          sizes_list[ndx] = alone ? default_share : size_provider[child, default_share]
+        end
+      end
+    end
 
     def total_size
       frame.size(direction: direction)
