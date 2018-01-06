@@ -13,15 +13,15 @@ module Hero
       true
     end
 
-    def show(**props)
+    def show(*children, **props)
       props = props.merge(@props) if @props.is_a?(Hash)
-      render(**props)
+      render(*children, **props)
     end
 
     class << self
       # emulate procs if called with []
       def assemble_and_render(*children, **props)
-        new.render(*children,**props)
+        new.show(*children,**props)
       end
       alias_method :[], :assemble_and_render
     end

@@ -4,6 +4,17 @@ module Hero
     def height; y1-y0 end
     def area;   width * height end
 
+    # where is the center of a rectangle?
+    def center
+      # bad: [ (x1 - x0) / 2, (y1 - y0) / 2 ]
+      # good:
+      #   [
+      #     x0 + ((x1-x0)/2),
+      #     y0 + ((y1-y0)/2)
+      #   ]
+      [ x0 + ((x1-x0)/2), y0 + ((y1-y0)/2) ]
+    end
+
     def size(direction:)
       if direction == :vertical
         height
@@ -80,6 +91,7 @@ module Hero
     end
 
     def subdivide_vertically(n)
+      return [self] if n == 0
       slice_height = height / n
       (n-1).times.map do |slice_index|
         Frame[
@@ -90,6 +102,7 @@ module Hero
     end
 
     def subdivide_horizontally(n)
+      return [self] if n == 0
       slice_width = width / n
       (n-1).times.map do |slice_index|
         Frame[

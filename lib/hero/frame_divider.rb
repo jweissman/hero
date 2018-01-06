@@ -12,6 +12,7 @@ module Hero
       if children_with_specified_share.any? || children.any? { |child| partially_specifies_size?(child) }
         split_with_specifications
       else
+        # simple subdivision
         frame.subdivide(children.length, direction: direction)
       end
     end
@@ -41,7 +42,9 @@ module Hero
       sizing_pass!(
         children_sizes,
         condition: ->(child) { !specifies_size?(child) && partially_specifies_size?(child) },
-        size_provider: ->(child, default) { [ partially_specified_size(child), default ].max }
+        size_provider: lambda do |child, default|
+          partially_specified_size(child)
+        end
       )
 
       # now hit totally unspecified children with default val
@@ -60,9 +63,13 @@ module Hero
       total_count = sizes_list.compact.count || 0
       if total_count < children.count
         default_share = (total_size - total_share) / (children.count - total_count)
-        children.each.with_index do |child,ndx|
-          if condition[child]
-            sizes_list[ndx] = size_provider[child, default_share]
+        conditional_children = children.select { |c| condition[c] }
+        if conditional_children.any?
+          children.each.with_index do |child,ndx|
+            if condition[child]
+              alone = sizes_list[ndx].nil? && (total_count == children.count - 1)
+              sizes_list[ndx] = alone ? default_share : size_provider[child, default_share]
+            end
           end
         end
       end
