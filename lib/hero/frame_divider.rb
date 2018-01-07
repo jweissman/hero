@@ -81,9 +81,22 @@ module Hero
       children.each.with_index do |child,ndx|
         if condition[child]
           alone = sizes_list[ndx].nil? && (total_count == children.count - 1)
-          sizes_list[ndx] = alone ? default_share : size_provider[child, default_share]
+          size_child!(child, ndx,
+                      alone: alone,
+                      default_share: default_share,
+                      sizes: sizes_list,
+                      condition: condition,
+                      size_provider: size_provider)
         end
       end
+    end
+
+    def size_child!(child, index, alone:, default_share:, sizes:, condition:, size_provider:)
+      child_size = default_share
+      unless alone # always use default for alone
+        child_size = size_provider[child, default_share]
+      end
+      sizes[index] = child_size
     end
 
     def total_size
